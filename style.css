@@ -26,9 +26,9 @@
 /* ===== BASE STYLES ===== */
 body {
     background-image: url(images/background_collage.png);
-    background-repeat: repeat; /* This will repeat when height is reached */
-    background-size: auto; /* Show full image width, don't zoom/crop */
-    background-position: top center; /* Position at top and center horizontally */
+    background-repeat: repeat-y; /* Repeat vertically only */
+    background-size: 100% auto; /* Full width, maintain aspect ratio */
+    background-position: top center;
     color: var(--text-light);
     font-family: "Tomorrow", sans-serif;
     line-height: 1.6;
@@ -106,7 +106,7 @@ h2 {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100% auto;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -1179,6 +1179,8 @@ footer {
         width: 70% !important;
         order: 2 !important;
     }
+
+    
     
     .hero-logo {
         order: 1 !important;
@@ -1237,6 +1239,11 @@ footer {
     /* MOBILE NAVIGATION SYSTEM */
     .hero-navbar:not(.mobile-nav) {
         display: none !important;
+    }
+
+    body {
+        background-size: 150%;
+
     }
     
     .hamburger-menu {
@@ -1356,6 +1363,12 @@ footer {
         max-width: 350px !important;
         margin: 0.5rem auto !important;
     }
+
+    body {
+        background-size: 160%;
+
+    }
+    
     
     .single-art {
         width: min(300px, 85vw) !important;
@@ -1393,11 +1406,10 @@ footer {
 
 /* 480px and below - MOBILE LAYOUT */
 @media screen and (max-width: 480px) {
-    body {
-        background-size: cover;
-        overflow-x: hidden;
+    .body {
+        background-size:auto; 
+
     }
-    
     .hero-logo img {
         max-width: 65% !important;
     }
@@ -1551,6 +1563,8 @@ footer {
     .single-text {
         font-size: clamp(0.8rem, 5.5vw, 1.1rem) !important;
     }
+
+    
     
     .album-art {
         max-width: 260px;
@@ -1586,8 +1600,8 @@ footer {
 /* 320px and below - EXTRA SMALL MOBILE */
 @media screen and (max-width: 320px) {
     body {
-        background-size: cover;
-        overflow-x: hidden;
+        background-size: 200%;
+
     }
     
     html {
