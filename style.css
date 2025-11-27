@@ -93,6 +93,7 @@ h2 {
     height: 100vh;
     overflow: hidden;
     border-bottom: 3px solid var(--primary-color);
+    background-color: #000; 
 }
 
 .hero-video video {
@@ -110,10 +111,9 @@ h2 {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* This pushes everything to top and bottom */
+    justify-content: space-between; 
     align-items: center;
     z-index: 2;
-    /* Add padding to create safe zones */
     padding: var(--space-sm) 0;
 }
 
@@ -122,7 +122,7 @@ h2 {
     text-align: left;
     width: 100%;
     padding: 0 var(--space-sm);
-    flex-shrink: 0; /* Prevent logo from shrinking */
+    flex-shrink: 0; 
 }
 
 .hero-logo img {
