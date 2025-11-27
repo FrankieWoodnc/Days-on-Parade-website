@@ -157,7 +157,7 @@ window.addEventListener('scroll', updateStickyNavbar);
 // Also update on page load in case page is refreshed partway down
 window.addEventListener('load', updateStickyNavbar);
 
-//Video Carousel Functionality
+//Video Carousel Functionality - PERFECT SLIDE ALIGNMENT
 document.addEventListener('DOMContentLoaded', function() {
     const carouselTrack = document.querySelector('.video-carousel-track');
     const prevButton = document.querySelector('.carousel-prev');
@@ -166,13 +166,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (!carouselTrack) return;
     
-    const slidesToShow = 3;
     let currentPosition = 0;
     
-    // Calculate slide width including gap
-    function getSlideWidth() {
+    // Get number of slides to show based on screen size
+    function getSlidesToShow() {
+        const width = window.innerWidth;
+        if (width <= 640) return 1;    // Mobile: 1 slide
+        if (width <= 900) return 2;    // Tablet: 2 slides
+        return 3;                      // Desktop: 3 slides
+    }
+    
+    // Calculate exact scroll amount for perfect alignment
+    function getScrollAmount() {
         const slide = slides[0];
-        const slideStyle = getComputedStyle(slide);
         const slideWidth = slide.offsetWidth;
         const gap = parseInt(getComputedStyle(carouselTrack).gap) || 0;
         return slideWidth + gap;
@@ -180,21 +186,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Arrow navigation
     prevButton.addEventListener('click', () => {
+        const slidesToShow = getSlidesToShow();
         scrollToPosition(currentPosition - slidesToShow);
     });
     
     nextButton.addEventListener('click', () => {
+        const slidesToShow = getSlidesToShow();
         scrollToPosition(currentPosition + slidesToShow);
     });
     
     function scrollToPosition(position) {
-        const maxPosition = slides.length - slidesToShow;
+        const slidesToShow = getSlidesToShow();
+        const maxPosition = Math.max(0, slides.length - slidesToShow);
         
-        if (position < 0) position = 0;
-        if (position > maxPosition) position = maxPosition;
+        // Ensure position is valid
+        position = Math.max(0, Math.min(position, maxPosition));
         
         currentPosition = position;
-        const scrollAmount = position * getSlideWidth();
+        const scrollAmount = position * getScrollAmount();
         
         carouselTrack.scrollTo({
             left: scrollAmount,
@@ -203,12 +212,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         updateArrowVisibility();
     }
-
     
+    // Update arrow visibility
+    function updateArrowVisibility() {
+        const slidesToShow = getSlidesToShow();
+        const maxPosition = Math.max(0, slides.length - slidesToShow);
+        
+        prevButton.disabled = currentPosition <= 0;
+        nextButton.disabled = currentPosition >= maxPosition;
+    }
     
-    // Touch/swipe functionality
+    // Touch/swipe functionality with perfect snapping
     let isDragging = false;
     let startPosition = 0;
+    let startScrollLeft = 0;
     
     carouselTrack.addEventListener('touchstart', touchStart);
     carouselTrack.addEventListener('touchmove', touchMove);
@@ -217,6 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function touchStart(e) {
         isDragging = true;
         startPosition = e.touches[0].clientX;
+        startScrollLeft = carouselTrack.scrollLeft;
         carouselTrack.style.scrollBehavior = 'auto';
     }
     
@@ -225,23 +243,27 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const currentPosition = e.touches[0].clientX;
         const diff = startPosition - currentPosition;
-        carouselTrack.scrollLeft += diff;
-        startPosition = currentPosition;
+        carouselTrack.scrollLeft = startScrollLeft + diff;
     }
     
     function touchEnd() {
+        if (!isDragging) return;
         isDragging = false;
         carouselTrack.style.scrollBehavior = 'smooth';
         
-        // Snap to nearest group of 3 slides
+        // Perfect snap to nearest slide group
         const scrollLeft = carouselTrack.scrollLeft;
-        const slideWidth = getSlideWidth();
-        currentPosition = Math.round(scrollLeft / slideWidth / slidesToShow) * slidesToShow;
+        const scrollAmount = getScrollAmount();
+        const slidesToShow = getSlidesToShow();
+        
+        // Calculate which slide group to snap to
+        currentPosition = Math.round(scrollLeft / scrollAmount / slidesToShow) * slidesToShow;
         scrollToPosition(currentPosition);
     }
     
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
+        const slidesToShow = getSlidesToShow();
         if (e.key === 'ArrowLeft') {
             scrollToPosition(currentPosition - slidesToShow);
         } else if (e.key === 'ArrowRight') {
@@ -249,23 +271,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Update arrow visibility
-    function updateArrowVisibility() {
-        const maxPosition = slides.length - slidesToShow;
-        
-        prevButton.disabled = currentPosition <= 0;
-        nextButton.disabled = currentPosition >= maxPosition;
-    }
-    
-    // Handle window resize
+    // Handle window resize - recalculate and maintain position
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-        // Recalculate and adjust position on resize
-        setTimeout(() => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            // Adjust current position if it would be out of bounds after resize
+            const slidesToShow = getSlidesToShow();
+            const maxPosition = Math.max(0, slides.length - slidesToShow);
+            
+            if (currentPosition > maxPosition) {
+                currentPosition = maxPosition;
+            }
+            
+            // Scroll to maintain visual position
             scrollToPosition(currentPosition);
-        }, 100);
+        }, 150);
     });
     
+    // Initialize
     updateArrowVisibility();
+    
+    // Ensure perfect initial alignment
+    setTimeout(() => {
+        scrollToPosition(0);
+    }, 100);
 });
 
 // Mobile Navigation

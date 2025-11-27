@@ -470,6 +470,8 @@ h2 {
     align-items: center;
     gap: var(--space-sm);
     z-index: 1;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .video-carousel-track {
@@ -481,6 +483,7 @@ h2 {
     scrollbar-width: none;
     -ms-overflow-style: none;
     flex: 1;
+    width: 100%;
 }
 
 .video-carousel-track::-webkit-scrollbar {
@@ -488,9 +491,11 @@ h2 {
 }
 
 .video-carousel-slide {
-    flex: 0 0 30%;
-    min-width: 0;
-    aspect-ratio: 16 / 9; /* Modern way to set aspect ratio */
+    flex-shrink: 0;
+    aspect-ratio: 16 / 9;
+    box-sizing: border-box;
+    /* Remove min-width constraints that cause cutting */
+    min-width: 0 !important;
 }
 
 .video-carousel-slide iframe {
@@ -515,7 +520,7 @@ h2 {
     z-index: 5;
     border-radius: var(--border-radius);
     flex-shrink: 0;
-    align-self: center; /* Make arrows match video height */
+    align-self: center;
 }
 
 .carousel-arrow:hover:not(:disabled) {
@@ -523,7 +528,6 @@ h2 {
     border-color: var(--accent-color);
 }
 
-/* Disabled state for arrows */
 .carousel-arrow:disabled {
     opacity: 0.3;
     cursor: default;
@@ -734,7 +738,7 @@ h2 {
 .form-grid {
     display: grid;
     gap: var(--space-sm);
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     margin-bottom: 0;
 }
 
@@ -1118,6 +1122,11 @@ footer {
     .video-carousel {
         max-width: 1100px;
     }
+    
+    /* Video carousel - 3 slides */
+    .video-carousel-slide {
+        flex: 0 0 calc(33.333% - var(--space-md) * 2 / 3) !important;
+    }
 }
 
 /* 900px to 1023px - SMALL DESKTOP/TABLET TRANSITION */
@@ -1142,9 +1151,14 @@ footer {
     .hero-navbar .nav-links ul {
         gap: 4em !important;
     }
+    
+    /* Video carousel - 3 slides */
+    .video-carousel-slide {
+        flex: 0 0 calc(33.333% - var(--space-md) * 2 / 3) !important;
+    }
 }
 
-/* 769px to 900px - TABLET LANDSCAPE - HERO CONTENT FIXES START HERE */
+/* 769px to 900px - TABLET LANDSCAPE - HERO CONTENT FIXES */
 @media screen and (max-width: 900px) and (min-width: 769px) {
     .hero-logo img {
         width: 350px !important;
@@ -1160,7 +1174,7 @@ footer {
     .single-announcement {
         position: static !important;
         transform: none !important;
-        margin: var(--space-sm) auto !important; /* Reduced margin */
+        margin: var(--space-sm) auto !important;
         max-width: 400px !important;
         width: 70% !important;
         order: 2 !important;
@@ -1169,6 +1183,7 @@ footer {
     .hero-logo {
         order: 1 !important;
         margin-bottom: 0 !important;
+        text-align: center !important;
     }
     
     .top-social-icons {
@@ -1198,6 +1213,16 @@ footer {
         font-size: 1rem !important;
         padding: var(--space-xs) !important;
     }
+    
+    /* Video carousel - 2 slides */
+    .video-carousel-slide {
+        flex: 0 0 calc(50% - var(--space-md) / 2) !important;
+    }
+    
+    .video-carousel {
+        padding: 0 var(--space-md);
+        max-width: 900px;
+    }
 }
 
 @media screen and (min-width: 769px) {
@@ -1207,8 +1232,8 @@ footer {
     }
 }
 
-/* 768px and below - TABLET PORTRAIT & MOBILE */
-@media screen and (max-width: 768px) {
+/* 641px to 768px - TABLET PORTRAIT (2 SLIDES) */
+@media screen and (max-width: 768px) and (min-width: 641px) {
     /* MOBILE NAVIGATION SYSTEM */
     .hero-navbar:not(.mobile-nav) {
         display: none !important;
@@ -1248,25 +1273,26 @@ footer {
     
     /* Logo sizing for tablet */
     .hero-logo img {
-        max-width: 60% !important;
+        max-width: 55% !important;
     }
     
     .hero-logo {
         order: 1 !important;
         margin-bottom: 0 !important;
+        text-align: center !important;
     }
     
     .single-announcement {
         position: static !important;
         transform: none !important;
-        margin: 0.5rem auto !important; /* Much smaller margin */
-        max-width: 400px !important;
+        margin: 0.75rem auto !important;
+        max-width: 380px !important;
         width: 80% !important;
         order: 2 !important;
     }
     
     .single-art {
-        width: min(350px, 85vw) !important;
+        width: min(320px, 80vw) !important;
     }
     
     .single-text {
@@ -1296,32 +1322,8 @@ footer {
         height: 35px;
     }
     
-    .video-carousel {
-        max-width: 900px;
-        padding: 0 var(--space-md);
-    }
-    
-    .video-carousel-slide {
-        flex: 0 0 48%;
-    }
-}
-
-/* 640px to 768px - SMALL TABLET */
-@media screen and (max-width: 768px) and (min-width: 641px) {
-    .hero-logo img {
-        max-width: 55% !important;
-    }
-
-    .single-announcement {
-        max-width: 38=50px !important;
-        margin: 0.75rem auto !important;
-    }
-    
-    .single-art {
-        width: min(320px, 80vw) !important;
-    }
-
     .merch-grid {
+        grid-template-columns: repeat(2, 1fr);
         max-width: 800px;
         gap: var(--space-sm);
     }
@@ -1330,39 +1332,25 @@ footer {
         max-width: 180px;
         height: 180px;
     }
-}
-
-/* Height-based adjustments for single announcement */
-@media screen and (max-height: 700px) and (min-width: 1025px) {
-    .single-announcement {
-        top: 55% !important;
+    
+    /* Video carousel - 2 slides */
+    .video-carousel {
+        max-width: 900px;
+        padding: 0 var(--space-md);
     }
     
-    .single-art {
-        width: clamp(250px, 20vw, 400px) !important;
+    .video-carousel-slide {
+        flex: 0 0 calc(50% - var(--space-md) / 2) !important;
+        min-width: 280px;
     }
     
-    .single-text {
-        font-size: clamp(1.2rem, 2vw, 2rem) !important;
-        margin-bottom: var(--space-sm) !important;
-    }
-}
-
-@media screen and (max-height: 500px) and (min-width: 1025px) {
-    .single-announcement {
-        top: 40% !important;
-    }
-    
-    .single-art {
-        width: clamp(200px, 15vw, 300px) !important;
-    }
-    
-    .single-text {
-        font-size: clamp(1rem, 1.5vw, 1.5rem) !important;
+    .video-carousel-track {
+        gap: var(--space-sm);
+        padding: var(--space-xs) 0;
     }
 }
 
-/* 480px to 640px - LARGE MOBILE */
+/* 640px and below - MOBILE (1 SLIDE) */
 @media screen and (max-width: 640px) {
     .single-announcement {
         max-width: 350px !important;
@@ -1383,6 +1371,23 @@ footer {
     
     .form-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Video carousel - 1 slide */
+    .video-carousel-slide {
+        flex: 0 0 100% !important;
+    }
+    
+    .video-carousel {
+        max-width: 100%;
+        padding: 0 var(--space-sm);
+        margin: var(--space-xs) auto;
+        gap: var(--space-xs);
+    }
+    
+    .carousel-arrow {
+        width: 35px;
+        font-size: 1.1rem;
     }
 }
 
@@ -1422,7 +1427,7 @@ footer {
     
     .single-announcement {
         max-width: 320px !important;
-        margin: 0.25rem auto !important; /* Minimal margin */
+        margin: 0.25rem auto !important;
     }
     
     .single-art {
@@ -1463,6 +1468,10 @@ footer {
     
     .vinyl-images {
         max-width: 300px;
+    }
+    
+    .video-carousel-slide {
+        flex: 0 0 100% !important;
     }
     
     .video-carousel {
@@ -1513,6 +1522,14 @@ footer {
         width: 280px !important;
         height: 280px !important;
     }
+    
+    .video-carousel-slide {
+        flex: 0 0 100% !important;
+    }
+    
+    .video-carousel {
+        padding: 0 var(--space-xs);
+    }
 }
 
 /* 360px and below - SMALL MOBILE */
@@ -1535,10 +1552,6 @@ footer {
         font-size: clamp(0.8rem, 5.5vw, 1.1rem) !important;
     }
     
-    .video-carousel-slide {
-        flex: 0 0 48%;
-    }
-    
     .album-art {
         max-width: 260px;
         width: 260px !important;
@@ -1559,6 +1572,14 @@ footer {
     .hamburger-menu span {
         width: 18px !important;
         height: 2px !important;
+    }
+    
+    .video-carousel-slide {
+        flex: 0 0 100% !important;
+    }
+    
+    .video-carousel-track {
+        gap: 0.5rem;
     }
 }
 
@@ -1596,7 +1617,7 @@ footer {
     
     .single-announcement {
         max-width: 260px !important;
-        margin: 0.1rem auto !important; /* Almost no margin */
+        margin: 0.1rem auto !important;
     }
     
     .single-art {
@@ -1658,7 +1679,8 @@ footer {
     }
     
     .video-carousel-slide {
-        flex: 0 0 46%;
+        flex: 0 0 100% !important;
+        min-width: 200px;
     }
     
     .carousel-arrow {
