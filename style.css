@@ -967,6 +967,7 @@ footer {
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
+
 /* Mobile first - merch starts as 2x2 grid */
 .merch-grid {
     display: grid;
@@ -1321,6 +1322,13 @@ footer {
     .merch-image {
         max-width: 170px;
     }
+    
+    /* Touch screen button styles */
+    .single-btn {
+        background: #32CD32 !important;
+        border-color: #32CD32 !important;
+        color: #000 !important;
+    }
 }
 
 @media screen and (min-width: 769px) {
@@ -1426,15 +1434,11 @@ footer {
     /* Merch stays 2x2 (default) - already set in base styles */
     .merch-grid {
         max-width: 800px;
-        gap: var(--space-xs);
+        gap: var(--space-sm);
     }
     
     .merch-image {
         max-width: 160px;
-    }
-
-    .merch-item  {
-        font-size: .8rem; 
     }
     
     /* Video carousel - 2 slides */
@@ -1451,6 +1455,13 @@ footer {
     .video-carousel-track {
         gap: var(--space-sm);
         padding: var(--space-xs) 0;
+    }
+    
+    /* Touch screen button styles */
+    .single-btn {
+        background: #32CD32 !important;
+        border-color: #32CD32 !important;
+        color: #000 !important;
     }
 }
 
@@ -1552,9 +1563,12 @@ footer {
     .merch-image {
         max-width: 140px;
     }
-
-    .merch-item  {
-        font-size: .8rem; 
+    
+    /* Touch screen button styles */
+    .single-btn {
+        background: #32CD32 !important;
+        border-color: #32CD32 !important;
+        color: #000 !important;
     }
 }
 
@@ -1604,6 +1618,9 @@ footer {
     .single-btn {
         padding: 0.7em 1.2em !important;
         font-size: 0.9rem !important;
+        background: #32CD32 !important;
+        border-color: #32CD32 !important;
+        color: #000 !important;
     }
     
     .top-social-icons {
@@ -1680,14 +1697,34 @@ footer {
     .merch-image {
         max-width: 130px;
     }
-
-    .merch-item  {
-        font-size: .7rem; 
-    }
     
     /* Smaller section headings */
     h2 {
         font-size: 2.5rem !important;
+    }
+    
+    /* Merch section specific font sizes */
+    .merch-item {
+        font-size: 0.9rem; /* Smaller font for merch text */
+    }
+    
+    .merch-item .btn {
+        font-size: 0.8rem; /* Smaller button text */
+    }
+}
+
+/* 425px and below - SPECIFIC FONT SIZES */
+@media screen and (max-width: 425px) {
+    .merch-item {
+        font-size: 0.8rem !important; /* Even smaller font */
+    }
+    
+    .merch-item .btn {
+        font-size: 0.75rem !important; /* Even smaller button text */
+    }
+    
+    .single-btn {
+        font-size: 0.85rem !important;
     }
 }
 
@@ -1735,10 +1772,6 @@ footer {
     .merch-image {
         max-width: 120px;
     }
-
-    .merch-item  {
-        font-size: .6rem; 
-    }
     
     /* Even smaller section headings */
     h2 {
@@ -1747,6 +1780,23 @@ footer {
     
     .section-anchor h2 {
         font-size: 2.2rem !important;
+    }
+    
+    /* Merch section specific font sizes */
+    .merch-item {
+        font-size: 0.75rem !important; /* Smaller font for merch text */
+    }
+    
+    .merch-item .btn {
+        font-size: 0.7rem !important; /* Smaller button text */
+    }
+    
+    /* Touch screen button styles */
+    .single-btn {
+        background: #32CD32 !important;
+        border-color: #32CD32 !important;
+        color: #000 !important;
+        font-size: 0.8rem !important;
     }
 }
 
@@ -1825,6 +1875,25 @@ footer {
     .section-anchor h2 {
         font-size: 2rem !important;
     }
+    
+    /* Merch section specific font sizes */
+    .merch-item {
+        font-size: 0.7rem !important; /* Even smaller font */
+    }
+    
+    .merch-item .btn {
+        font-size: 0.65rem !important; /* Even smaller button text */
+        padding: 0.6em 1em !important; /* Smaller padding */
+    }
+    
+    /* Touch screen button styles */
+    .single-btn {
+        background: #32CD32 !important;
+        border-color: #32CD32 !important;
+        color: #000 !important;
+        font-size: 0.75rem !important;
+        padding: 0.6em 1.1em !important;
+    }
 }
 
 /* 320px and below - EXTRA SMALL MOBILE */
@@ -1869,7 +1938,10 @@ footer {
     
     .single-btn {
         padding: 0.6em 1em !important;
-        font-size: 0.8rem !important;
+        font-size: 0.7rem !important;
+        background: #32CD32 !important;
+        border-color: #32CD32 !important;
+        color: #000 !important;
     }
     
     .top-social-icons {
@@ -1962,12 +2034,7 @@ footer {
     .merch-image {
         max-width: 100px;
     }
-
-    .merch-item  {
-        font-size: .5rem; 
-    }
     
-   
     /* Smallest section headings */
     h2 {
         font-size: 1.8rem !important;
@@ -1975,5 +2042,15 @@ footer {
     
     .section-anchor h2 {
         font-size: 1.8rem !important;
+    }
+    
+    /* Super small merch fonts */
+    .merch-item {
+        font-size: 0.65rem !important; /* Super small font */
+    }
+    
+    .merch-item .btn {
+        font-size: 0.6rem !important; /* Super small button text */
+        padding: 0.5em 0.8em !important; /* Even smaller padding */
     }
 }
