@@ -30,6 +30,7 @@ body {
     background-size: 100% auto;
     background-position: top center;
     background-attachment: scroll;
+    background-color: green; /* Fallback color */
     color: var(--text-light);
     font-family: "Tomorrow", sans-serif;
     line-height: 1.6;
@@ -39,6 +40,7 @@ body {
     overflow-x: hidden;
     width: 100%;
 }
+
 
 /* Remove all the .site-background and in-app browser background overrides */
 .site-background {
