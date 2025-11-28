@@ -1,0 +1,24 @@
+[build]
+  publish = "."
+
+# Enable processing
+[build.processing]
+  skip_processing = false
+
+# CSS optimization
+[build.processing.css]
+  bundle = true
+  minify = true
+
+# JS optimization  
+[build.processing.js]
+  bundle = true
+  minify = true
+
+# HTML optimization
+[build.processing.html]
+  pretty_urls = true
+
+# Image optimization
+[build.processing.images]
+  compress = true

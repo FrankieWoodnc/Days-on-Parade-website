@@ -25,7 +25,7 @@
 
 /* ===== BASE STYLES ===== */
 .page-container {
-    background-image: url(images/background_collage.png);
+    background-image: url(images/background_collage.webp);
     background-repeat: repeat-y;
     background-size: 100% auto;
     background-position: top center;
@@ -1196,7 +1196,6 @@ footer {
         max-width: 1400px;
     }
     
-    /* Standard large merch images */
     .merch-image {
         max-width: 200px;
     }
