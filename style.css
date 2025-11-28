@@ -24,7 +24,7 @@
 }
 
 /* ===== BASE STYLES ===== */
-body {
+.page-container {
     background-image: url(images/background_collage.png);
     background-repeat: repeat-y;
     background-size: 100% auto;
@@ -39,6 +39,11 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
 }
 
 
