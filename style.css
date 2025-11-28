@@ -27,7 +27,7 @@
 .page-container {
     background-image: url(images/background_collage.png);
     background-repeat: repeat-y;
-    background-size: 100% auto;
+    background-size: contain;
     background-position: top center;
     background-color: #000;
     min-height: 100vh;
