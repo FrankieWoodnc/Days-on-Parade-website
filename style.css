@@ -25,11 +25,7 @@
 
 /* ===== BASE STYLES ===== */
 body {
-    background-image: url(images/background_collage.png);
-    background-repeat: repeat-y; /* Keep vertical repeat */
-    background-size: 100% auto; /* Keep full width, maintain aspect ratio */
-    background-position: top center;
-    background-attachment: scroll;
+    background-color: #000; /* Solid black fallback */
     color: var(--text-light);
     font-family: "Tomorrow", sans-serif;
     line-height: 1.6;
@@ -38,19 +34,56 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     width: 100%;
+    position: relative;
 }
-html {
-    overflow-x: hidden;
+
+/* Main background that covers entire page */
+.site-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(images/background_collage.png);
+    background-repeat: repeat-y;
+    background-size: 100% auto;
+    background-position: top center;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Make the background very tall to cover scrolling */
+.site-background::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 300vh; /* Extra height for scrolling */
+    background-image: inherit;
+    background-repeat: inherit;
+    background-size: inherit;
+    background-position: top center;
+}
+
+main, footer {
+    position: relative;
+    z-index: 1;
 }
 
 /* ===== IN-APP BROWSER FIXES ===== */
 
 /* Force proper background behavior in in-app browsers */
-.in-app-browser body {
-    background-attachment: scroll !important;
-    background-size: 100% auto !important;
-    background-repeat: repeat-y !important;
-    background-position: top center !important;
+.in-app-browser .site-background {
+    background-repeat: repeat-y;
+    background-size: 100% auto;
+    background-position: top center;
+}
+
+/* Make sure the background container is tall enough */
+.in-app-browser .site-background {
+    height: auto;
+    min-height: 100%;
 }
 
 /* Alternative background container for problematic in-app browsers */

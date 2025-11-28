@@ -476,3 +476,23 @@ function detectInAppBrowser() {
 // Run detection
 document.addEventListener('DOMContentLoaded', detectInAppBrowser);
 
+function setupBackground() {
+    const background = document.querySelector('.site-background');
+    if (background) {
+        // Make background tall enough to cover all content
+        const documentHeight = Math.max(
+            document.body.scrollHeight, 
+            document.documentElement.scrollHeight
+        );
+        background.style.minHeight = documentHeight + 'px';
+    }
+}
+
+// Run when DOM loads and on resize
+document.addEventListener('DOMContentLoaded', function() {
+    setupBackground();
+    detectInAppBrowser();
+});
+
+// Update background height if content changes
+window.addEventListener('resize', setupBackground);
