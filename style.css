@@ -27,7 +27,7 @@
 .page-container {
     background-image: url(images/background_collage.png);
     background-repeat: repeat-y;
-    background-size: contain;
+    background-size: 100% auto;
     background-position: top center;
     background-color: #000;
     min-height: 100vh;
@@ -1418,6 +1418,13 @@ footer {
     .about-container {
         grid-template-columns: 1fr 1fr;
         gap: var(--space-xxl);
+    }
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        background-image: url(images/background_collage.png) !important;
+        background-attachment: scroll !important;
     }
 }
 
