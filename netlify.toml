@@ -1,7 +1,7 @@
 [build]
   publish = "."
+  command = "echo 'Building site...'"
 
-# Enable processing
 [build.processing]
   skip_processing = false
 
@@ -22,3 +22,29 @@
 # Image optimization
 [build.processing.images]
   compress = true
+
+# Cache headers for bandwidth savings
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.js" 
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/videos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
