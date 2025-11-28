@@ -26,9 +26,10 @@
 /* ===== BASE STYLES ===== */
 body {
     background-image: url(images/background_collage.png);
-    background-repeat: repeat-y; /* Repeat vertically only */
-    background-size: 100% auto; /* Full width, maintain aspect ratio */
+    background-repeat: repeat-y; /* Keep vertical repeat */
+    background-size: 100% auto; /* Keep full width, maintain aspect ratio */
     background-position: top center;
+    background-attachment: scroll;
     color: var(--text-light);
     font-family: "Tomorrow", sans-serif;
     line-height: 1.6;
@@ -40,6 +41,45 @@ body {
 }
 html {
     overflow-x: hidden;
+}
+
+/* ===== IN-APP BROWSER FIXES ===== */
+
+/* Force proper background behavior in in-app browsers */
+.in-app-browser body {
+    background-attachment: scroll !important;
+    background-size: 100% auto !important;
+    background-repeat: repeat-y !important;
+    background-position: top center !important;
+}
+
+/* Alternative background container for problematic in-app browsers */
+.background-fallback {
+    display: none;
+}
+
+.in-app-browser .background-fallback {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 400%; /* Extra height to ensure coverage when scrolling */
+    background-image: url(images/background_collage.png);
+    background-repeat: repeat-y;
+    background-size: 100% auto;
+    background-position: top center;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.in-app-browser body {
+    background: #000 !important; /* Solid fallback */
+}
+
+.in-app-browser main {
+    position: relative;
+    z-index: 1;
 }
 
 /* ===== LAYOUT COMPONENTS ===== */
