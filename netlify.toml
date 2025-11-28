@@ -1,36 +1,15 @@
 [build]
   publish = "."
-  command = "echo 'Building site...'"
+  command = "echo 'Optimizing...'"
 
-[build.processing]
-  skip_processing = false
-
-# CSS optimization
-[build.processing.css]
-  bundle = true
-  minify = true
-
-# JS optimization  
-[build.processing.js]
-  bundle = true
-  minify = true
-
-# HTML optimization
-[build.processing.html]
-  pretty_urls = true
-
-# Image optimization
-[build.processing.images]
-  compress = true
-
-# Cache headers for bandwidth savings
+# Cache headers for massive bandwidth savings
 [[headers]]
   for = "/*.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000"
 
 [[headers]]
-  for = "/*.js" 
+  for = "/*.js"
   [headers.values]
     Cache-Control = "public, max-age=31536000"
 
@@ -48,3 +27,33 @@
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.jpeg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.gif"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
