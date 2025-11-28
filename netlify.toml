@@ -1,6 +1,6 @@
 [build]
   publish = "."
-  command = "echo 'Optimizing...'"
+
 
 # Cache headers for massive bandwidth savings
 [[headers]]
