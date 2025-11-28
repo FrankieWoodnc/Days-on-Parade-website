@@ -101,6 +101,38 @@ h2 {
     height: 100%;
     object-fit: cover;
     object-position: center;
+
+    /* Critical for iOS in-app browsers */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+    
+    /* Force hardware acceleration */
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+
+/* Specific fixes for Instagram/Facebook in-app browser */
+.hero-video {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #000; /* Fallback color */
+    
+    /* Force stacking context */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+/* Fix for WeChat and other Chinese app browsers */
+.hero-video video {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .hero-content {

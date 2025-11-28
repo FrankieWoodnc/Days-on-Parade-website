@@ -340,3 +340,139 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Add this after your existing DOMContentLoaded event listeners
+
+// ===== IN-APP BROWSER VIDEO AUTOPLAY FIXES =====
+document.addEventListener('DOMContentLoaded', function() {
+    const heroVideo = document.querySelector('.hero-video video');
+    
+    if (heroVideo) {
+        // Set essential attributes for in-app browser support
+        heroVideo.setAttribute('playsinline', '');
+        heroVideo.setAttribute('webkit-playsinline', '');
+        heroVideo.setAttribute('muted', '');
+        heroVideo.setAttribute('autoplay', '');
+        heroVideo.setAttribute('loop', '');
+        heroVideo.setAttribute('preload', 'auto');
+        
+        // Add WeChat/QQ browser specific attributes
+        heroVideo.setAttribute('x5-playsinline', '');
+        heroVideo.setAttribute('x5-video-player-type', 'h5');
+        
+        // Force muted state
+        heroVideo.muted = true;
+        heroVideo.volume = 0;
+
+        // Enhanced autoplay with multiple fallbacks
+        function attemptAutoplay() {
+            const playPromise = heroVideo.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('Initial autoplay failed, trying fallbacks:', error);
+                    
+                    // Fallback 1: Ensure muted and try again
+                    heroVideo.muted = true;
+                    heroVideo.play().catch(e => {
+                        console.log('Muted autoplay failed:', e);
+                        
+                        // Fallback 2: Wait for user interaction
+                        const interactivePlay = () => {
+                            heroVideo.play().catch(console.error);
+                            document.removeEventListener('click', interactivePlay);
+                            document.removeEventListener('touchstart', interactivePlay);
+                        };
+                        
+                        document.addEventListener('click', interactivePlay);
+                        document.addEventListener('touchstart', interactivePlay);
+                        
+                        // Fallback 3: Show play button overlay if needed
+                        showVideoFallback();
+                    });
+                });
+            }
+        }
+
+        // Show fallback if video completely fails
+        function showVideoFallback() {
+            const heroSection = document.querySelector('.hero-video');
+            heroSection.classList.add('video-failed');
+        }
+
+        // Listen for video events
+        heroVideo.addEventListener('loadeddata', function() {
+            console.log('Video loaded, attempting autoplay');
+            attemptAutoplay();
+        });
+
+        heroVideo.addEventListener('canplay', function() {
+            console.log('Video can play');
+            attemptAutoplay();
+        });
+
+        heroVideo.addEventListener('error', function(e) {
+            console.log('Video error:', e);
+            showVideoFallback();
+        });
+
+        // Try autoplay immediately
+        attemptAutoplay();
+
+        // Retry when page becomes visible (important for in-app browsers)
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible' && heroVideo.paused) {
+                console.log('Page visible, retrying video play');
+                setTimeout(attemptAutoplay, 300);
+            }
+        });
+
+        // Additional trigger for in-app browser navigation
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                console.log('Page restored from cache, retrying video');
+                setTimeout(attemptAutoplay, 500);
+            }
+        });
+
+        // Touch trigger for iOS devices
+        let touchAttempted = false;
+        document.addEventListener('touchstart', function() {
+            if (!touchAttempted && heroVideo.paused) {
+                touchAttempted = true;
+                setTimeout(() => {
+                    heroVideo.play().catch(e => console.log('Touch play failed:', e));
+                }, 100);
+            }
+        }, { once: false });
+    }
+});
+
+// Detect in-app browsers and apply specific fixes
+function detectInAppBrowser() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isInApp = (
+        ua.includes("Instagram") ||
+        ua.includes("Facebook") ||
+        ua.includes("FBAV") ||
+        ua.includes("Twitter") ||
+        ua.includes("Snapchat") ||
+        ua.includes("Line") ||
+        ua.includes("KAKAO") ||
+        ua.includes("WeChat") ||
+        ua.includes("QQ") ||
+        ua.includes("DingTalk") ||
+        (ua.includes("Safari") && !ua.includes("Chrome") && !ua.includes("CriOS"))
+    );
+    
+    if (isInApp) {
+        document.documentElement.classList.add('in-app-browser');
+        console.log('In-app browser detected:', ua);
+    }
+    
+    return isInApp;
+}
+
+// Run detection
+document.addEventListener('DOMContentLoaded', detectInAppBrowser);
+
