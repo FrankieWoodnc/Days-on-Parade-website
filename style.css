@@ -15,7 +15,7 @@
     --space-xl: 3rem;
     --space-xxl: 4rem;
     --space-section: 5rem;
-}s
+}
 
 * {
     margin: 0;
@@ -1081,6 +1081,46 @@ footer {
     transform: translateY(-5px);
 }
 
+/* ===== TOUR PROMO SECTION ===== */
+.tour-promo {
+    margin: var(--space-section) 0 var(--space-lg) 0;
+    width: 100%;
+    text-align: center;
+}
+
+.tour-promo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-sm);
+}
+
+.tour-promo-image {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: var(--transition);
+    display: block;
+    margin: 0 auto;
+}
+
+.tour-promo-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive adjustments for tour promo */
+@media screen and (max-width: 768px) {
+    .tour-promo {
+        margin: var(--space-lg) 0 var(--space-md) 0;
+    }
+    
+    .tour-promo-image:hover {
+        transform: none; /* Disable hover scale on touch devices */
+    }
+}
+
 /* 2560px and above - 2K/ULTRA WIDE SCREENS */
 @media screen and (min-width: 2560px) {
     .hero-logo img {
@@ -1421,15 +1461,14 @@ footer {
     }
 }
 
-@media (max-width: 768px) {
-    .page-container {
-        background-image: url(images/background_collage.png) !important;
-        background-attachment: scroll !important;
-    }
-}
-
 /* 641px to 768px - TABLET PORTRAIT (2 SLIDES) */
 @media screen and (max-width: 768px) and (min-width: 641px) {
+    /* FIXED: Use .webp instead of .png for mobile background */
+    .page-container {
+        background-image: url(images/background_collage.webp) !important;
+        background-attachment: scroll !important;
+    }
+    
     /* MOBILE NAVIGATION SYSTEM */
     .hero-navbar:not(.mobile-nav) {
         display: none !important;
@@ -1557,6 +1596,12 @@ footer {
 
 /* 640px and below - MOBILE (1 SLIDE) */
 @media screen and (max-width: 640px) {
+    /* FIXED: Use .webp instead of .png for mobile background */
+    .page-container {
+        background-image: url(images/background_collage.webp) !important;
+        background-attachment: scroll !important;
+    }
+    
     .single-announcement {
         max-width: 350px !important;
         margin: 0.5rem auto !important;
